@@ -4,7 +4,9 @@ function App() {
 
     return (
         <div>
-            <span>hola mundo</span>
+            <p>hola mundo</p>
+            <p>ひらがな</p>
+            <p>カタカナ</p>
         </div>
     )
 }

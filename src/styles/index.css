@@ -4,8 +4,6 @@
 
 :root {
   font-family: 'Roboto', 'Noto Sans JP', system-ui, sans-serif;
-  /* line-height: 1.5; */
-  /* font-weight: 400; */
 
   color-scheme: light dark;
 
@@ -26,6 +24,5 @@ body {
   background-color: var(--color-1);
   color: var(--color-5);
   font-size: 16px;
-  line-height: 1.5;
-  font-weight: 400;
+  /* line-height: 1.5; */
 }
