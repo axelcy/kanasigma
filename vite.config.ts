@@ -18,6 +18,7 @@ export default defineConfig({
       '@hooks': '/src/hooks',
       '@context': '/src/context',
       '@types': '/src/types',
+      '@mocks': '/src/mocks',
     }
   }
 })

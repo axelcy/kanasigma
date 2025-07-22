@@ -4,7 +4,7 @@
 
 :root {
   font-family: 'Roboto', 'Noto Sans JP', system-ui, sans-serif;
-
+  
   color-scheme: light dark;
 
   font-synthesis: none;
@@ -17,12 +17,21 @@
   --color-3: #B4D6D3;
   --color-4: #B8BAC8;
   --color-5: #AA78A6;
+  --color-6: #2B1A2F;
+
+  --font-family: 'Roboto', 'Noto Sans JP', system-ui, sans-serif;
 }
 
 
 body {
-  background-color: var(--color-1);
-  color: var(--color-5);
+  background-color: var(--color-5);
+  color: var(--color-1);
   font-size: 16px;
   /* line-height: 1.5; */
+  margin: 0;
 }
+
+/* main {
+  padding: 2rem;
+  height: 100vh;
+} */

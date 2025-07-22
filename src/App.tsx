@@ -1,13 +1,14 @@
 import '@styles/App.css'
+import Home from '@pages/Home'
+import Footer from '@components/Footer'
 
 function App() {
 
     return (
-        <div>
-            <p>hola mundo</p>
-            <p>ひらがな</p>
-            <p>カタカナ</p>
-        </div>
+        <>
+            <Home />
+            <Footer />
+        </>
     )
 }
 
