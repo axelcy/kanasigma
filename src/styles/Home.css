@@ -43,8 +43,26 @@ main.Home input {
     letter-spacing: 0.05rem;
     background-color: var(--color-6);
     text-align: center;
+
     &::placeholder {
         color: var(--color-4);
         opacity: 0.7;
+    }
+}
+
+@keyframes flash-red-border {
+    0% {
+        box-shadow: 0 0 6px red;
+        border-color: red;
+    }
+
+    50% {
+        box-shadow: 0 0 2px red;
+        border-color: red;
+    }
+
+    100% {
+        box-shadow: 0 0 0px red;
+        border-color: initial;
     }
 }

@@ -1,11 +1,11 @@
 footer {
-  /* que se vea abajo a la izquierda */
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  /* width: 100%; */
-  margin: 1rem;
-  padding: 1rem;
-  border-radius: 100px;
-  background-color: rgba(43, 26, 47, 0.5);
+    /* que se vea abajo a la izquierda */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    /* width: 100%; */
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 100px;
+    background-color: rgba(43, 26, 47, 0.5);
 }
