@@ -45,8 +45,8 @@ function Home() {
                 <div className='input-container'>
                     <Streak currentStreak={streak} maxStreak={10} />
                     <input ref={mainInputRef} id='main-input' type="text" maxLength={3} value={inputValue} 
-                        // placeholder="Type the romaji..."
-                        placeholder={`Romanji: ${currentPair.romaji}`}
+                        placeholder="Type the romaji..."
+                        // placeholder={`Romanji: ${currentPair.romaji}`}
                         onChange={handleInputValue}
                         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                             if (e.code === 'Space' || e.key === ' ') {
