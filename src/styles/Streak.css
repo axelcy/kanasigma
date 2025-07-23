@@ -1,9 +1,17 @@
+
+/* // si la pantalla es de menos de 780 px poner     left: -20px; */
 .streak-container {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 10px;
+    left: 10px;
     height: calc(100%);
 }
+
+/* @media (width < 780px) {
+  .streak-container {
+    left: -25px;
+  }
+} */
 
 .streak-inner-container {
     /* border: red solid; */

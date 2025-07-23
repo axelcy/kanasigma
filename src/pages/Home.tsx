@@ -8,62 +8,65 @@ function Home() {
     const [currentPair, setCurrentPair] = useState<KanaPair>(getRandomKanaPair())
     const [inputValue, setInputValue] = useState('')
     const [streak, setStreak] = useState(0)
+    const [showHint, setShowHint] = useState(false)
 
     const mainInputRef = useRef<HTMLInputElement>(null)
 
-    const resetStreak = () => {
+    const resetStreak = (animation: string = 'flash-red-border 1s ease') => {
         setStreak(0)
         if (!mainInputRef.current) return
         mainInputRef.current.style.animation = 'none'
         void mainInputRef.current.offsetWidth
-        mainInputRef.current.style.animation = 'flash-red-border 1s ease'
-
+        mainInputRef.current.style.animation = animation
     }
 
     useEffect(() => {
         if (inputValue === currentPair.romaji) {
+            if (mainInputRef.current) mainInputRef.current.style.borderColor = 'var(--color-3)'
             setStreak(streak => streak += 1)
             setCurrentPair(getRandomKanaPair())
             setInputValue('')
+            setShowHint(false)
         }
         else if (currentPair.romaji.length !== 1) {
+            // si la palabra es de 2 o mas caracteres y están mal escritos
             if (inputValue.length === currentPair.romaji.length) resetStreak()
         }
-        // si la palabra es de 1 caracter (a i u e o n) e ingresaste 2
+        // si la palabra es de 1 caracter (a i u e o n) e ingresaste 2 caracteres
         else if (inputValue.length === 2) resetStreak()
     }, [inputValue])
 
-    const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleInputValue', e.target.value)
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value.endsWith(' ')) return handleSpacebar(e)
         setInputValue(e.target.value)
+    }
+
+    const handleSpacebar = (e: React.SyntheticEvent) => {
+        e.preventDefault()
+        if (!mainInputRef.current) return
+        mainInputRef.current.style.borderColor = 'red'
+        resetStreak('flash-red-border-only 1s ease')
+        setShowHint(true)
     }
 
     return (
         <main className='Home'>
             <div className='home-container'>
-                <h1 className='kana'>{ currentPair?.kana }</h1>
+                <Streak currentStreak={streak} maxStreak={10} />
+                <h1 className='kana'>{currentPair?.kana}</h1>
                 <div className='input-container'>
-                    <Streak currentStreak={streak} maxStreak={10} />
                     <input ref={mainInputRef} id='main-input' type="text" maxLength={3} value={inputValue} 
                         placeholder="Type the romaji..."
-                        // placeholder={`Romanji: ${currentPair.romaji}`}
-                        onChange={handleInputValue}
+                        onChange={handleChange}
                         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                            if (e.code === 'Space' || e.key === ' ') {
-                                e.preventDefault()
-                                setCurrentPair(getRandomKanaPair())
-                                resetStreak()
-                            }
+                            if (e.code === 'Space' || e.key === ' ') handleSpacebar(e)
                         }}
                         onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                            if (e.code === 'Space' || e.key === ' ') {
-                                e.preventDefault()
-                                resetStreak()
-                            }
+                            if (e.code === 'Space' || e.key === ' ') handleSpacebar(e)
                         }}
                     />
+                    {showHint && <span className='hint'>{currentPair.romaji}</span>}
                 </div>
-                {/* <span style={{ fontSize: '1.5rem', marginTop: '.5rem' }}>{currentPair.romaji}</span> */}
             </div>
         </main>
     )
