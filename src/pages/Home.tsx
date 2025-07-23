@@ -6,7 +6,7 @@ import Streak from '@/components/Streak'
 
 function Home() {
     const [availablePairs, setAvailablePairs] = useState<KanaPair[]>(allPairs)
-    const [currentPair, setCurrentPair] = useState<KanaPair>(getRandomKanaPair(availablePairs))
+    const [currentPair, setCurrentPair] = useState<KanaPair>(getRandomKanaPair())
     const [inputValue, setInputValue] = useState('')
     const [streak, setStreak] = useState(0)
     const [showHint, setShowHint] = useState(false)
@@ -21,7 +21,7 @@ function Home() {
         mainInputRef.current.style.animation = animation
     }
 
-    const changeCurrentPair = () => {
+    function changeCurrentPair() {
         setAvailablePairs(prevAvailablePairs => {
             let pairs = prevAvailablePairs.length === 0 ? allPairs : prevAvailablePairs
             const randomPair = getRandomKanaPair(pairs)
@@ -42,6 +42,11 @@ function Home() {
         resetStreak('flash-red-border-only 1s ease')
         setShowHint(true)
     }
+
+    useEffect(() => {
+        // al iniciar, eliminar el primer par de la lista de disponibles
+        setAvailablePairs(allPairs.filter(pair => pair !== currentPair))
+    }, [])
 
     useEffect(() => {
         if (inputValue === currentPair.romaji) {
