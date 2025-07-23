@@ -1,11 +1,12 @@
-import { getRandomKanaPair } from '@/libs/kanaUtils'
+import { getRandomKanaPair, allPairs } from '@/libs/kanaUtils'
 import type { KanaPair } from '@/types/kana'
 import '@styles/Home.css'
 import { useEffect, useRef, useState } from 'react'
 import Streak from '@/components/Streak'
 
 function Home() {
-    const [currentPair, setCurrentPair] = useState<KanaPair>(getRandomKanaPair())
+    const [availablePairs, setAvailablePairs] = useState<KanaPair[]>(allPairs)
+    const [currentPair, setCurrentPair] = useState<KanaPair>(getRandomKanaPair(availablePairs))
     const [inputValue, setInputValue] = useState('')
     const [streak, setStreak] = useState(0)
     const [showHint, setShowHint] = useState(false)
@@ -20,21 +21,14 @@ function Home() {
         mainInputRef.current.style.animation = animation
     }
 
-    useEffect(() => {
-        if (inputValue === currentPair.romaji) {
-            if (mainInputRef.current) mainInputRef.current.style.borderColor = 'var(--color-3)'
-            setStreak(streak => streak += 1)
-            setCurrentPair(getRandomKanaPair())
-            setInputValue('')
-            setShowHint(false)
-        }
-        else if (currentPair.romaji.length !== 1) {
-            // si la palabra es de 2 o mas caracteres y están mal escritos
-            if (inputValue.length === currentPair.romaji.length) resetStreak()
-        }
-        // si la palabra es de 1 caracter (a i u e o n) e ingresaste 2 caracteres
-        else if (inputValue.length === 2) resetStreak()
-    }, [inputValue])
+    const changeCurrentPair = () => {
+        setAvailablePairs(prevAvailablePairs => {
+            let pairs = prevAvailablePairs.length === 0 ? allPairs : prevAvailablePairs
+            const randomPair = getRandomKanaPair(pairs)
+            setCurrentPair(randomPair)
+            return pairs.filter(pair => pair !== randomPair)
+        })
+    }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.value.endsWith(' ')) return handleSpacebar(e)
@@ -48,6 +42,22 @@ function Home() {
         resetStreak('flash-red-border-only 1s ease')
         setShowHint(true)
     }
+
+    useEffect(() => {
+        if (inputValue === currentPair.romaji) {
+            if (mainInputRef.current) mainInputRef.current.style.borderColor = 'var(--color-3)'
+            setStreak(streak => streak += 1)
+            changeCurrentPair()
+            setInputValue('')
+            setShowHint(false)
+        }
+        else if (currentPair.romaji.length !== 1) {
+            // si la palabra es de 2 o mas caracteres y están mal escritos
+            if (inputValue.length === currentPair.romaji.length) resetStreak()
+        }
+        // si la palabra es de 1 caracter (a i u e o n) e ingresaste 2 caracteres
+        else if (inputValue.length === 2) resetStreak()
+    }, [inputValue])
 
     return (
         <main className='Home'>

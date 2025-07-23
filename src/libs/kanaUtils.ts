@@ -53,6 +53,6 @@ export function getRandomKana(): string {
     return allKanas[Math.floor(Math.random() * allKanas.length)]
 }
 
-export function getRandomKanaPair(): KanaPair {
-    return allPairs[Math.floor(Math.random() * allPairs.length)]
+export function getRandomKanaPair(kanas: KanaPair[] = allPairs): KanaPair {
+    return kanas[Math.floor(Math.random() * kanas.length)]
 }
