@@ -15,6 +15,7 @@ h1.kana {
 main.Home .home-container {
     margin: 2rem;
     padding: 2rem;
+    padding-top: 0;
     width: clamp(200px, 50vw, 400px);
     background-color: var(--color-4);
     border-radius: 8px;
@@ -22,6 +23,7 @@ main.Home .home-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 }
 
 main.Home .input-container {
@@ -43,6 +45,8 @@ main.Home input {
     letter-spacing: 0.05rem;
     background-color: var(--color-6);
     text-align: center;
+    max-width: 300px;
+    width: 100%;
 
     &::placeholder {
         color: var(--color-4);
@@ -65,4 +69,87 @@ main.Home input {
         box-shadow: 0 0 0px red;
         border-color: initial;
     }
+}
+
+@keyframes flash-red-border-only {
+    0% {
+        box-shadow: 0 0 6px red;
+        border-color: red;
+    }
+
+    50% {
+        box-shadow: 0 0 2px red;
+        border-color: red;
+    }
+
+    100% {
+        box-shadow: 0 0 0px red;
+        border-color: red;
+    }
+}
+
+.flash-red-border {
+    border-color: red;
+}
+
+main.Home input::after {
+    content: 'test';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+main.Home .hint {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+    bottom: -1.8rem;
+    z-index: 4;
+}
+
+@media (width < 780px) {
+    /* hacer todo mas chico */
+    main.Home .home-container {
+        /* width: 90vw; */
+        width: clamp(200px, 400px, 80vw);
+        padding: 1rem;
+        padding-bottom: 2rem;
+        padding-top: 0;
+        font-size: 1.2rem;
+    }
+    main.Home input {
+        font-size: 1.2rem;
+    }
+    main.Home .hint {
+        font-size: 1.2rem;
+    }
+    h1.kana {
+        font-size: 4rem;
+    }
+    main.Home {
+        font-size: 1.5rem;
+    }
+    main.Home .input-container {
+        width: 100%;
+    }
+    main.Home .input-container input {
+        width: 100%;
+    }
+    main.Home .input-container input::after {
+        width: 100%;
+        height: 100%;
+    }
+    main.Home .input-container input::placeholder {
+        font-size: 1.2rem;
+    }
+    main.Home .input-container input::after {
+        font-size: 1.2rem;
+    }
+
 }
