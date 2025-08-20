@@ -3,6 +3,9 @@ import type { KanaPair } from '@/types/kana'
 import '@styles/Home.css'
 import { useEffect, useRef, useState } from 'react'
 import Streak from '@/components/Streak'
+import SwitchButton from '@/components/Buttons/SwitchButton'
+import SkipButton from '@/components/Buttons/SkipButton'
+import HintButton from '@/components/Buttons/HintButton'
 
 function Home() {
     const [, setAvailablePairs] = useState<KanaPair[]>(allPairs)
@@ -10,6 +13,7 @@ function Home() {
     const [inputValue, setInputValue] = useState('')
     const [streak, setStreak] = useState(0)
     const [showHint, setShowHint] = useState(false)
+    const [romanjiMode, setRomajiMode] = useState(false)
 
     const mainInputRef = useRef<HTMLInputElement>(null)
 
@@ -22,6 +26,7 @@ function Home() {
     }
 
     function changeCurrentPair() {
+        setShowHint(false)
         setAvailablePairs(prevAvailablePairs => {
             let pairs = prevAvailablePairs.length === 0 ? allPairs : prevAvailablePairs
             const randomPair = getRandomKanaPair(pairs)
@@ -68,7 +73,8 @@ function Home() {
         <main className='Home'>
             <div className='home-container'>
                 <Streak currentStreak={streak} maxStreak={10} />
-                <h1 className='kana'>{currentPair?.kana}</h1>
+                <SwitchButton size={32} stroke={2} onClick={() => setRomajiMode(prev => !prev)} />
+                <h1 className='kana'>{romanjiMode ? currentPair.romaji : currentPair.kana}</h1>
                 <div className='input-container'>
                     <input ref={mainInputRef} id='main-input' type="text" maxLength={3} value={inputValue} 
                         placeholder="Type the romaji..."
@@ -80,7 +86,12 @@ function Home() {
                             if (e.code === 'Space' || e.key === ' ') handleSpacebar(e)
                         }}
                     />
-                    {showHint && <span className='hint'>{currentPair.romaji}</span>}
+                    <SkipButton onClick={() => {
+                        resetStreak()
+                        changeCurrentPair()
+                    }} />
+                    <HintButton onClick={handleSpacebar} />
+                    {showHint && <span className='hint'>{romanjiMode ? currentPair.kana : currentPair.romaji}</span>}
                 </div>
             </div>
         </main>
